@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoModel, AutoTokenizer
 from int8 import quantize_uint8_asymmetric, dequantize_uint8_asymmetric
-from wrap import quantize_model_int8, dequantize_model_int8  # Your wrapper functions
+from wrap import quantize_model_uint8, dequantize_model_uint8  # wrapper functions
 
 model_name = "bert-base-uncased"
 model = AutoModel.from_pretrained(model_name)
@@ -26,5 +26,6 @@ def load_and_dequantize_model(path, model_class=AutoModel, model_name="bert-base
     model._quant_metadata = checkpoint["quant_metadata"]
     model = dequantize_model_int8(model)
     return model
+
 
 
