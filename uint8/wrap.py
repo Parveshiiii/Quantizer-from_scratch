@@ -1,11 +1,11 @@
-from int8 import quantize_int8_asymmetric, dequantize_int8_asymmetric
+from int8 import quantize_uint8_asymmetric, dequantize_uint8_asymmetric
 
 
-def quantize_model_int8(model):
+def quantize_model_uint8(model):
     metadata = {}
     for name, param in model.named_parameters():
         if param.requires_grad:
-            q_tensor, scale, zero_point = quantize_int8_asymmetric(param.data)
+            q_tensor, scale, zero_point = quantize_uint8_asymmetric(param.data)
             param.data = q_tensor.float()  # Store as float for compatibility
             metadata[name] = {
                 "scale": scale,
@@ -15,7 +15,7 @@ def quantize_model_int8(model):
     model._quant_metadata = metadata
     return model
 
-def dequantize_model_int8(model):
+def dequantize_model_uint8(model):
     metadata = getattr(model, "_quant_metadata", None)
     if metadata is None:
         raise ValueError("No quantization metadata found in model.")
@@ -25,5 +25,5 @@ def dequantize_model_int8(model):
             meta = metadata[name]
             scale = meta["scale"]
             zero_point = meta["zero_point"]
-            param.data = dequantize_int8_asymmetric(param.data, scale, zero_point).to(torch.float32)
+            param.data = dequantize_uint8_asymmetric(param.data, scale, zero_point).to(torch.float32)
     return model
