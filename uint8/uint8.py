@@ -1,6 +1,6 @@
 import torch
 
-def quantize_int8_asymmetric(tensor, num_bits=8):
+def quantize_uint8_asymmetric(tensor, num_bits=8):
     qmin = 0
     qmax = 2 ** num_bits - 1
 
@@ -13,5 +13,5 @@ def quantize_int8_asymmetric(tensor, num_bits=8):
     q_tensor = torch.clamp((tensor / scale + zero_point).round(), qmin, qmax).to(torch.uint8)
     return q_tensor, scale, zero_point
 
-def dequantize_int8_asymmetric(q_tensor, scale, zero_point):
+def dequantize_uint8_asymmetric(q_tensor, scale, zero_point):
     return scale * (q_tensor.float() - zero_point)
