@@ -1,6 +1,12 @@
 ## Quantizer
 
 >This repo has implementations of different quantization methods from scratch using raw mathematics.
+
+**Current Scope of repo**
+1. int8
+2. unit8
+
+# More coming soon
 ```
 @misc{quant_from_scratch,
   title        = {Quant from Scratch},
